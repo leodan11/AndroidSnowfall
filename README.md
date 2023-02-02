@@ -1,6 +1,6 @@
 # Android Snowfall
 
-[![](https://jitpack.io/v/leodan11/ReadMoreOptions.svg)](https://jitpack.io/#leodan11/ReadMoreOptions)
+[![](https://jitpack.io/v/leodan11/AndroidSnowfall.svg)](https://jitpack.io/#leodan11/AndroidSnowfall)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
@@ -30,7 +30,7 @@ allprojects {
 Step 2. Add the dependency
 ```gradle
 dependencies {
-  implementation 'com.github.leodan11:ReadMoreOptions:{latest version}'
+  implementation 'com.github.leodan11:AndroidSnowfall:{latest version}'
 }
 ```
 
