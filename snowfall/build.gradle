@@ -48,7 +48,7 @@ afterEvaluate {
                 from components.release
                 groupId = 'com.leodan11.snowfall'
                 artifactId = 'SnowfallView'
-                version = '1.1.0'
+                version = '1.4.0'
 
                 pom {
                     name = "SnowfallView"
