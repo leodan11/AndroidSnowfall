@@ -10,7 +10,7 @@
         android:id="@+id/example"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:snowflakeImage="@drawable/baseline_circle"
+        app:snowflakeImage="@drawable/ic_baseline_color_confetti"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

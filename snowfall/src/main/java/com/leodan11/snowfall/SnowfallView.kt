@@ -15,6 +15,7 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
 
     private val snowflakesNum: Int
     private var snowflakeImage: Bitmap?
+    private var snowflakeImages: MutableList<Bitmap> = mutableListOf()
     private val snowflakeAlphaMin: Int
     private val snowflakeAlphaMax: Int
     private val snowflakeAngleMax: Int
@@ -24,6 +25,7 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
     private val snowflakeSpeedMax: Int
     private val snowflakesFadingEnabled: Boolean
     private val snowflakesAlreadyFalling: Boolean
+    private val snowflakesMultipleImages: Boolean
 
     private lateinit var updateSnowflakesThread: UpdateSnowflakesThread
     private var snowflakes: Array<Snowflake>? = null
@@ -42,6 +44,7 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
             snowflakeSpeedMax = a.getInt(R.styleable.SnowfallView_snowflakeSpeedMax, DEFAULT_SNOWFLAKE_SPEED_MAX)
             snowflakesFadingEnabled = a.getBoolean(R.styleable.SnowfallView_snowflakesFadingEnabled, DEFAULT_SNOWFLAKES_FADING_ENABLED)
             snowflakesAlreadyFalling = a.getBoolean(R.styleable.SnowfallView_snowflakesAlreadyFalling, DEFAULT_SNOWFLAKES_ALREADY_FALLING)
+            snowflakesMultipleImages = a.getBoolean(R.styleable.SnowfallView_snowflakesMultipleImages, DEFAULT_SNOWFLAKES_MULTIPLE_IMAGES)
 
             setLayerType(LAYER_TYPE_HARDWARE, null)
 
@@ -121,17 +124,40 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
     }
 
     /**
-     * Sets a Bitmap as the content of this SnowfallView.
+     * Sets a list drawables as the content of this SnowfallView.
      *
-     * @param: bm – the [Bitmap] to set the content
-     *
+     * @param drawables – the list [Drawable] to set the content
      */
-    fun setSnowflakeImageBitmap(bm: Bitmap) {
-        snowflakeImage = bm
+    fun setSnowflakeImageDrawables(drawables: List<Drawable>) {
+        drawables.forEach {
+            snowflakeImages.add(it.toBitmap())
+        }
     }
 
     /**
-     * Sets a drawable as the content of this SnowfallView.
+     * Sets a Bitmap as the content of this SnowfallView.
+     *
+     * @param bitmap – the [Bitmap] to set the content
+     *
+     */
+    fun setSnowflakeImageBitmap(bitmap: Bitmap) {
+        snowflakeImage = bitmap
+    }
+
+    /**
+     * Sets a list Bitmap as the content of this SnowfallView.
+     *
+     * @param bitmaps – the list [Bitmap] to set the content
+     *
+     */
+    fun setSnowflakeImageBitmaps(bitmaps: List<Bitmap>) {
+        bitmaps.forEach {
+            snowflakeImages.add(it)
+        }
+    }
+
+    /**
+     * Sets a resource as the content of this SnowfallView.
      * This does Bitmap reading and decoding on the UI thread, which can cause a latency hiccup. If that's a concern, consider using [setSnowflakeImageDrawable] or [setSnowflakeImageBitmap] and [android.graphics.BitmapFactory] instead.
      *
      * @param resId – the resource identifier of the drawable
@@ -139,6 +165,19 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
      */
     fun setSnowflakeResource(@DrawableRes resId: Int) {
         snowflakeImage = ContextCompat.getDrawable(context!!, resId)?.toBitmap()
+    }
+
+    /**
+     * Sets a list resources as the content of this SnowfallView.
+     * This does Bitmap reading and decoding on the UI thread, which can cause a latency hiccup. If that's a concern, consider using [setSnowflakeImageDrawables] or [setSnowflakeImageBitmaps] and [android.graphics.BitmapFactory] instead.
+     *
+     * @param resIds – the resource identifier of the drawable
+     *
+     */
+    fun setSnowflakeResources(@DrawableRes resIds: List<Int>) {
+        resIds.forEach {
+            snowflakeImages.add(ContextCompat.getDrawable(context!!, it)?.toBitmap()!!)
+        }
     }
 
     fun stopFalling() {
@@ -152,21 +191,42 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
     private fun createSnowflakes(): Array<Snowflake> {
         val randomizer = Randomizer()
 
-        val snowflakeParams = Snowflake.Params(
-            parentWidth = width,
-            parentHeight = height,
-            image = snowflakeImage,
-            alphaMin = snowflakeAlphaMin,
-            alphaMax = snowflakeAlphaMax,
-            angleMax = snowflakeAngleMax,
-            sizeMinInPx = snowflakeSizeMinInPx,
-            sizeMaxInPx = snowflakeSizeMaxInPx,
-            speedMin = snowflakeSpeedMin,
-            speedMax = snowflakeSpeedMax,
-            fadingEnabled = snowflakesFadingEnabled,
-            alreadyFalling = snowflakesAlreadyFalling)
-
-        return Array(snowflakesNum) { Snowflake(randomizer, snowflakeParams) }
+        return when (snowflakesMultipleImages && snowflakeImages.isNotEmpty()) {
+            true -> {
+                Array(snowflakesNum) {
+                    val snowflakeParams = Snowflake.Params(
+                        parentWidth = width,
+                        parentHeight = height,
+                        image = snowflakeImages.random(),
+                        alphaMin = snowflakeAlphaMin,
+                        alphaMax = snowflakeAlphaMax,
+                        angleMax = snowflakeAngleMax,
+                        sizeMinInPx = snowflakeSizeMinInPx,
+                        sizeMaxInPx = snowflakeSizeMaxInPx,
+                        speedMin = snowflakeSpeedMin,
+                        speedMax = snowflakeSpeedMax,
+                        fadingEnabled = snowflakesFadingEnabled,
+                        alreadyFalling = snowflakesAlreadyFalling)
+                    Snowflake(randomizer, snowflakeParams)
+                }
+            }
+            else -> {
+                val snowflakeParams = Snowflake.Params(
+                    parentWidth = width,
+                    parentHeight = height,
+                    image = snowflakeImage,
+                    alphaMin = snowflakeAlphaMin,
+                    alphaMax = snowflakeAlphaMax,
+                    angleMax = snowflakeAngleMax,
+                    sizeMinInPx = snowflakeSizeMinInPx,
+                    sizeMaxInPx = snowflakeSizeMaxInPx,
+                    speedMin = snowflakeSpeedMin,
+                    speedMax = snowflakeSpeedMax,
+                    fadingEnabled = snowflakesFadingEnabled,
+                    alreadyFalling = snowflakesAlreadyFalling)
+                Array(snowflakesNum) { Snowflake(randomizer, snowflakeParams) }
+            }
+        }
     }
 
     private fun updateSnowflakes() {
@@ -208,6 +268,7 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
         private const val DEFAULT_SNOWFLAKE_SPEED_MAX = 8
         private const val DEFAULT_SNOWFLAKES_FADING_ENABLED = false
         private const val DEFAULT_SNOWFLAKES_ALREADY_FALLING = false
+        private const val DEFAULT_SNOWFLAKES_MULTIPLE_IMAGES = false
     }
 
 }

@@ -12,5 +12,6 @@
         <attr name="snowflakeSpeedMax" format="integer"/>
         <attr name="snowflakesFadingEnabled" format="boolean"/>
         <attr name="snowflakesAlreadyFalling" format="boolean"/>
+        <attr name="snowflakesMultipleImages" format="boolean"/>
     </declare-styleable>
 </resources>
