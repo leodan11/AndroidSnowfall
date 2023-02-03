@@ -96,5 +96,6 @@ Fully customized implementation:
       app:snowflakeSpeedMax="12"
       app:snowflakesFadingEnabled="true"
       app:snowflakesAlreadyFalling="false"
+      app:snowflakesMultipleImages="false"
       app:snowflakeImage="@drawable/snowflake"/>
 ```
