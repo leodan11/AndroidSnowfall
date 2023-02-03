@@ -76,8 +76,8 @@ Default implementation with round snowflakes:
 ```xml
 <com.leodan11.snowfall.SnowfallView
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      app:snowflakeImage="@drawable/snowflake"/>
+      android:layout_height="match_parent" />
+
 ```
 
 Fully customized implementation:
@@ -98,4 +98,5 @@ Fully customized implementation:
       app:snowflakesAlreadyFalling="false"
       app:snowflakesMultipleImages="false"
       app:snowflakeImage="@drawable/snowflake"/>
+
 ```
