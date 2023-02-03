@@ -48,7 +48,8 @@ dependencies {
 | Speed min | app:snowflakeSpeedMin  |   | 2  |
 | Already falling | app:snowflakesAlreadyFalling  |   | false  |
 | Fading enabled | app:snowflakesFadingEnabled  |   | false  |
-| Number | app:snowflakesNum  |   | 200  |
+| Multiple Images | app:snowflakesMultipleImages  |   | false  |
+| Number of elements | app:snowflakesNum  |   | 200  |
 
 Alternatively, you can also style the Snowfall View programmatically by calling the methods:
 
@@ -60,6 +61,11 @@ Alternatively, you can also style the Snowfall View programmatically by calling 
 
  It's also possible to add the image of type resource,e.g `R.drawable.snowflake` using the following method:
 - `setSnowflakeResource(Resource)`
+
+To add multiple images, use the following methods, following the rule of the above methods:
+- `setSnowflakeImageDrawables(List<Drawable>)`
+- `setSnowflakeImageBitmaps(List<Bitmap>)`
+- `setSnowflakeResources(List<Resource>)`
 
 
 Usage
