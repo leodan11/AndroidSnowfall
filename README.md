@@ -13,7 +13,7 @@ Implementation of Snowfall View on Android.
 # Credits
 
 This is just an updated version of [android-snowfall](https://github.com/JetradarMobile/android-snowfall) and applying some of the active pull requests in it. 
-Credits go completely to its creator and the people who has contributed with those pull requests.
+Credits go completely to its creator and the people who have contributed with those pull requests.
 
 # Installation
 
@@ -92,7 +92,7 @@ Alternatively, you can also style the Snowfall View programmatically by calling 
  It's also possible to add the image of type bitmap using the following method:
 - `setSnowflakeImageBitmap(Bitmap)`
 
- It's also possible to add the image of type resource,e.g `R.drawable.snowflake` using the following method:
+ It's also possible to add the image of type resource, e.g. `R.drawable.snowflake` using the following method:
 - `setSnowflakeResource(Resource)`
 
 To add multiple images, use the following methods, following the rule of the above methods:

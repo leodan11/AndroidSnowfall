@@ -11,7 +11,7 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
 
-class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(context, attrs) {
+class SnowfallView(context: Context, attrs: AttributeSet? = null) : View(context, attrs) {
 
     private val snowflakesNum: Int
     private var snowflakeImage: Bitmap?
@@ -35,16 +35,36 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
         try {
             snowflakesNum = a.getInt(R.styleable.SnowfallView_snowflakesNum, DEFAULT_SNOWFLAKES_NUM)
             snowflakeImage = a.getDrawable(R.styleable.SnowfallView_snowflakeImage)?.toBitmap()
-            snowflakeAlphaMin = a.getInt(R.styleable.SnowfallView_snowflakeAlphaMin, DEFAULT_SNOWFLAKE_ALPHA_MIN)
-            snowflakeAlphaMax = a.getInt(R.styleable.SnowfallView_snowflakeAlphaMax, DEFAULT_SNOWFLAKE_ALPHA_MAX)
-            snowflakeAngleMax = a.getInt(R.styleable.SnowfallView_snowflakeAngleMax, DEFAULT_SNOWFLAKE_ANGLE_MAX)
-            snowflakeSizeMinInPx = a.getDimensionPixelSize(R.styleable.SnowfallView_snowflakeSizeMin, dpToPx(DEFAULT_SNOWFLAKE_SIZE_MIN_IN_DP))
-            snowflakeSizeMaxInPx = a.getDimensionPixelSize(R.styleable.SnowfallView_snowflakeSizeMax, dpToPx(DEFAULT_SNOWFLAKE_SIZE_MAX_IN_DP))
-            snowflakeSpeedMin = a.getInt(R.styleable.SnowfallView_snowflakeSpeedMin, DEFAULT_SNOWFLAKE_SPEED_MIN)
-            snowflakeSpeedMax = a.getInt(R.styleable.SnowfallView_snowflakeSpeedMax, DEFAULT_SNOWFLAKE_SPEED_MAX)
-            snowflakesFadingEnabled = a.getBoolean(R.styleable.SnowfallView_snowflakesFadingEnabled, DEFAULT_SNOWFLAKES_FADING_ENABLED)
-            snowflakesAlreadyFalling = a.getBoolean(R.styleable.SnowfallView_snowflakesAlreadyFalling, DEFAULT_SNOWFLAKES_ALREADY_FALLING)
-            snowflakesMultipleImages = a.getBoolean(R.styleable.SnowfallView_snowflakesMultipleImages, DEFAULT_SNOWFLAKES_MULTIPLE_IMAGES)
+            snowflakeAlphaMin =
+                a.getInt(R.styleable.SnowfallView_snowflakeAlphaMin, DEFAULT_SNOWFLAKE_ALPHA_MIN)
+            snowflakeAlphaMax =
+                a.getInt(R.styleable.SnowfallView_snowflakeAlphaMax, DEFAULT_SNOWFLAKE_ALPHA_MAX)
+            snowflakeAngleMax =
+                a.getInt(R.styleable.SnowfallView_snowflakeAngleMax, DEFAULT_SNOWFLAKE_ANGLE_MAX)
+            snowflakeSizeMinInPx = a.getDimensionPixelSize(
+                R.styleable.SnowfallView_snowflakeSizeMin,
+                dpToPx(DEFAULT_SNOWFLAKE_SIZE_MIN_IN_DP)
+            )
+            snowflakeSizeMaxInPx = a.getDimensionPixelSize(
+                R.styleable.SnowfallView_snowflakeSizeMax,
+                dpToPx(DEFAULT_SNOWFLAKE_SIZE_MAX_IN_DP)
+            )
+            snowflakeSpeedMin =
+                a.getInt(R.styleable.SnowfallView_snowflakeSpeedMin, DEFAULT_SNOWFLAKE_SPEED_MIN)
+            snowflakeSpeedMax =
+                a.getInt(R.styleable.SnowfallView_snowflakeSpeedMax, DEFAULT_SNOWFLAKE_SPEED_MAX)
+            snowflakesFadingEnabled = a.getBoolean(
+                R.styleable.SnowfallView_snowflakesFadingEnabled,
+                DEFAULT_SNOWFLAKES_FADING_ENABLED
+            )
+            snowflakesAlreadyFalling = a.getBoolean(
+                R.styleable.SnowfallView_snowflakesAlreadyFalling,
+                DEFAULT_SNOWFLAKES_ALREADY_FALLING
+            )
+            snowflakesMultipleImages = a.getBoolean(
+                R.styleable.SnowfallView_snowflakesMultipleImages,
+                DEFAULT_SNOWFLAKES_MULTIPLE_IMAGES
+            )
 
             setLayerType(LAYER_TYPE_HARDWARE, null)
 
@@ -108,8 +128,7 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
         if (fallingSnowflakes?.isNotEmpty() == true) {
             fallingSnowflakes.forEach { it.draw(canvas) }
             updateSnowflakes()
-        }
-        else {
+        } else {
             visibility = GONE
         }
     }
@@ -206,10 +225,12 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
                         speedMin = snowflakeSpeedMin,
                         speedMax = snowflakeSpeedMax,
                         fadingEnabled = snowflakesFadingEnabled,
-                        alreadyFalling = snowflakesAlreadyFalling)
+                        alreadyFalling = snowflakesAlreadyFalling
+                    )
                     Snowflake(randomizer, snowflakeParams)
                 }
             }
+
             else -> {
                 val snowflakeParams = Snowflake.Params(
                     parentWidth = width,
@@ -223,7 +244,8 @@ class SnowfallView constructor(context: Context, attrs: AttributeSet) : View(con
                     speedMin = snowflakeSpeedMin,
                     speedMax = snowflakeSpeedMax,
                     fadingEnabled = snowflakesFadingEnabled,
-                    alreadyFalling = snowflakesAlreadyFalling)
+                    alreadyFalling = snowflakesAlreadyFalling
+                )
                 Array(snowflakesNum) { Snowflake(randomizer, snowflakeParams) }
             }
         }
